@@ -11,18 +11,18 @@ gcc-arm-none-eabi-8-2019-q3 version as "gcc-arm-none-eabi-8-2019-q3"
 
 ## Compiling / Running
 Project Folder Structure with Dependencies
->./echelon-bike/ble_bike.c
->./echelon-bike/ble_bike.h
->./echelon-bike/main.c
->./echelon-bike/pca10056/s140/sdk_config.h
->./echelon-bike/pca10056/s140/ses/ble_bike_pca10056_s140.emProject
->./nRF5_SDK_15.3.0/*
->./gcc-arm-none-eabi-8-2019-q3/*
+* echelon-bike/ble_bike.c
+* echelon-bike/ble_bike.h
+* echelon-bike/main.c
+* echelon-bike/pca10056/s140/sdk_config.h
+* echelon-bike/pca10056/s140/ses/ble_bike_pca10056_s140.emProject
+* nRF5_SDK_15.3.0/*
+* gcc-arm-none-eabi-8-2019-q3/*
 
 After downloading / correctly placing the dependencies and opening the project file in SEGGER Embedded Studio for ARM:
-Build > Build
-Target > Download
-Target > Verify (Optional)
+* Build > Build
+* Target > Download
+* Target > Verify (Optional)
 
 ## Supported Hardware
 Tested against the Nordic nRF52840 Development Kit (PCA10056 / S140).
