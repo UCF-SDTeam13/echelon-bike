@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "nRF52",
+            "includePath": [
+                "${workspaceFolder}/",
+                "${workspaceFolder}/pca10056/s140/config/",
+                "${workspaceFolder}/../Libraries/nRF5_SDK_15.3.0/**"
+            ],
+            "compilerPath": "${workspaceFolder}/../Libraries/gcc-arm-none-eabi-8-2019-q3/bin/arm-none-eabi-gcc.exe",            "cStandard": "c11",
+            "intelliSenseMode": "gcc-x64",
+            "defines": [
+                "BOARD_PCA10056",
+                "CONFIG_GPIO_AS_PINRESET",
+                "FLOAT_ABI_HARD",
+                "NRF52840_XXAA",
+                "NRF_SD_BLE_API_VERSION=6",
+                "S140",
+                "SOFTDEVICE_PRESENT",
+                "SWI_DISABLE0"
+            ]
+        }
+    ],
+    "version": 4
+}

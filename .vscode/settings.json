@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "stdint.h": "c",
+        "cstdint": "c",
+        "ble_srv_common.h": "c",
+        "stdbool.h": "c"
+    }
+}

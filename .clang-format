@@ -1,0 +1,13 @@
+#Use defaults from the "Microsoft" style
+#BasedOnStyle: Microsoft
+#Note: Doing so requires Clang 10, so we manually define the  "Visual Studio" style instead
+# (from Microsoft C/C++ extension) for now
+
+BasedOnStyle: LLVM
+UseTab: Always
+IndentWidth: 4
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+ColumnLimit: 0
+TabWidth: 4
