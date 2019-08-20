@@ -3,6 +3,7 @@
         "stdint.h": "c",
         "cstdint": "c",
         "ble_srv_common.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "app_timer.h": "c"
     }
 }
