@@ -9,6 +9,8 @@ Echelon hardware bike mock using the Nordic nRF52 embedded BLE platform.
 * GNU Toolchain (Optional, for Editing in Visual Studio Code)
 gcc-arm-none-eabi-8-2019-q3 version as "gcc-arm-none-eabi-8-2019-q3"
 
+Libaries should be placed in a "Libraries" folder at the same level as echelon-bike.
+
 ## Compiling / Running
 Project Folder Structure with Dependencies
 * echelon-bike/ble_bike.c
@@ -16,8 +18,8 @@ Project Folder Structure with Dependencies
 * echelon-bike/main.c
 * echelon-bike/pca10056/s140/sdk_config.h
 * echelon-bike/pca10056/s140/ses/ble_bike_pca10056_s140.emProject
-* nRF5_SDK_15.3.0/*
-* gcc-arm-none-eabi-8-2019-q3/*
+* Libraries/nRF5_SDK_15.3.0/*
+* Libraries/gcc-arm-none-eabi-8-2019-q3/*
 
 After downloading / correctly placing the dependencies and opening the project file in SEGGER Embedded Studio for ARM:
 * Build > Build
