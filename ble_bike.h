@@ -187,3 +187,13 @@ uint32_t ble_bike_init(ble_bike_t *p_bike, const ble_bike_init_t *p_bike_init);
  * @param[in]   p_context  Context - Should be a Bike Service struct
  */
 void ble_bike_on_ble_evt(ble_evt_t const *p_ble_evt, void *p_context);
+
+/**@brief Function for handling notification timer timeout
+ * 
+ * @details Handles notification timer timout by updating state if necessary, and sends a notification regardless of whether or not state has changed
+ * 
+ * @param[in]   p_context  Context - Should be a Bike Service struct
+ *
+ * @return      NRF_SUCCESS on successful send of notification, otherwise an error code
+ */
+uint32_t ble_bike_notification_timeout_handler(void *p_context);
