@@ -262,7 +262,7 @@ uint32_t ble_bike_init(ble_bike_t * p_bike, const ble_bike_init_t * p_bike_init)
  */
 static void on_connect(ble_bike_t * p_bike, ble_evt_t const * p_ble_evt)
 {
-    printf("Client Connected\n");
+    NRF_LOG_INFO("Client Connected\n");
     //Now that connection is valid, set connection handle
     p_bike->conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
 
@@ -279,7 +279,7 @@ static void on_connect(ble_bike_t * p_bike, ble_evt_t const * p_ble_evt)
  */
 static void on_disconnect(ble_bike_t * p_bike, ble_evt_t const * p_ble_evt)
 {
-    printf("Client Disconnected\n");
+    NRF_LOG_INFO("Client Disconnected\n");
     //Not needed so macro to prevent compiler warning
     UNUSED_PARAMETER(p_ble_evt);
     //Connection is now invalid, invalidate connection handle
@@ -368,7 +368,7 @@ void calculateChecksum(uint8_t * p_value, uint16_t len) {
 void sendResponseMessage(ble_bike_t * p_bike, uint8_t responseCode) {
     switch(responseCode) {
         case BIKE_RESPONSE_DEVICEINFO:
-            printf("Response: Device Info\n");
+            NRF_LOG_INFO("Response: Device Info\n");
             uint8_t deviceInfo[10];
             deviceInfo[BIKE_INDEX_PREAMBLE] = BIKE_STARTBYTE;
             deviceInfo[BIKE_INDEX_RESPONSE] = BIKE_RESPONSE_DEVICEINFO;
@@ -386,11 +386,11 @@ void sendResponseMessage(ble_bike_t * p_bike, uint8_t responseCode) {
             break;
 
         case BIKE_RESPONSE_ERRORLOG:
-            printf("Response (TODO): Error Log\n");
+            NRF_LOG_INFO("Response (TODO): Error Log\n");
             // TODO
             break;
         case BIKE_RESPONSE_RESISTANCERANGE:
-            printf("Response: Resistance Range\n");
+            NRF_LOG_INFO("Response: Resistance Range\n");
             uint8_t resistanceRange[6];
             resistanceRange[BIKE_INDEX_PREAMBLE] = BIKE_STARTBYTE;
             resistanceRange[BIKE_INDEX_RESPONSE] = BIKE_RESPONSE_RESISTANCERANGE;
@@ -403,7 +403,7 @@ void sendResponseMessage(ble_bike_t * p_bike, uint8_t responseCode) {
             ble_bike_read_update(p_bike, resistanceRange, 6);
             break;
         case BIKE_RESPONSE_CONTROLSTATE:
-            printf("Response: Control State\n");
+            NRF_LOG_INFO("Response: Control State\n");
             uint8_t workoutControlState[5];
             workoutControlState[BIKE_INDEX_PREAMBLE] = BIKE_STARTBYTE;
             workoutControlState[BIKE_INDEX_RESPONSE] = BIKE_RESPONSE_CONTROLSTATE;
@@ -415,7 +415,7 @@ void sendResponseMessage(ble_bike_t * p_bike, uint8_t responseCode) {
             ble_bike_read_update(p_bike, workoutControlState, 5);
             break;
         case BIKE_RESPONSE_RESISTANCELEVEL:
-            printf("Response: Resistance Level\n");
+            NRF_LOG_INFO("Response: Resistance Level\n");
             uint8_t resistanceLevel[5];
             resistanceLevel[BIKE_INDEX_PREAMBLE] = BIKE_STARTBYTE;
             resistanceLevel[BIKE_INDEX_RESPONSE] = BIKE_RESPONSE_RESISTANCELEVEL;
@@ -500,7 +500,7 @@ uint32_t sendNotificationMessage(ble_bike_t * p_bike, uint8_t notificationCode) 
     uint32_t err_code = NRF_SUCCESS;
     switch(notificationCode) {
         case BIKE_NOTIFY_RESISTANCELEVEL:
-            printf("Notify: Resistance Level\n");
+            NRF_LOG_INFO("Notify: Resistance Level\n");
             uint8_t resistanceLevel[5];
             resistanceLevel[BIKE_INDEX_PREAMBLE] = BIKE_STARTBYTE;
             resistanceLevel[BIKE_INDEX_RESPONSE] = BIKE_NOTIFY_RESISTANCELEVEL;
@@ -512,7 +512,7 @@ uint32_t sendNotificationMessage(ble_bike_t * p_bike, uint8_t notificationCode) 
             ble_bike_notify_update(p_bike, resistanceLevel, 5);
         break;
         case BIKE_NOTIFY_CONTROLSTATE:
-            printf("Notify: Workout Control State\n");
+            NRF_LOG_INFO("Notify: Workout Control State\n");
             uint8_t controlstate[5];
             controlstate[BIKE_INDEX_PREAMBLE] = BIKE_STARTBYTE;
             controlstate[BIKE_INDEX_RESPONSE] = BIKE_NOTIFY_CONTROLSTATE;
@@ -524,7 +524,7 @@ uint32_t sendNotificationMessage(ble_bike_t * p_bike, uint8_t notificationCode) 
             err_code = ble_bike_notify_update(p_bike, controlstate, 5);
         break;
         case BIKE_NOTIFY_WORKOUTSTATUS:
-            printf("Notify: Workout Status");
+            NRF_LOG_INFO("Notify: Workout Status");
             uint8_t status[13];
             status[BIKE_INDEX_PREAMBLE] = BIKE_STARTBYTE;
             status[BIKE_INDEX_RESPONSE] = BIKE_NOTIFY_WORKOUTSTATUS;
@@ -560,44 +560,44 @@ void receiveWriteMessage(ble_bike_t * p_bike, const ble_gatts_evt_write_t * p_ev
 {
     // Check to make sure it's long enough to get length
     if (p_evt_write->len < BIKE_MINIMUMCOMMANDLENGTH) {
-        printf("Error: Message Received Shorter than Minimum Length\n");
+        NRF_LOG_ERROR("Error: Message Received Shorter than Minimum Length\n");
         return;
     }
     // Generally speaking commands should fit into one packet
     if (p_evt_write->len != BIKE_MINIMUMCOMMANDLENGTH + p_evt_write->data[BIKE_INDEX_FRAMELENGTH]) {
-        printf("Error: Message Received Data Length Mismatch\n");
+        NRF_LOG_ERROR("Error: Message Received Data Length Mismatch\n");
         return; 
     }
     // TODO - Validate checksum
 
     switch(p_evt_write->data[BIKE_INDEX_ACTION]) {
         case BIKE_ACTION_GETDEVICEINFO:
-            printf("Action: Get Device Info\n");
+            NRF_LOG_INFO("Action: Get Device Info\n");
             sendResponseMessage(p_bike, BIKE_RESPONSE_DEVICEINFO);
             break;
         case BIKE_ACTION_GETERRORLOG:
-            printf("Action: Get Error Log\n");
+            NRF_LOG_INFO("Action: Get Error Log\n");
             sendResponseMessage(p_bike, BIKE_RESPONSE_ERRORLOG);
             break;
         case BIKE_ACTION_GETRESISTANCERANGE:
-            printf("Action: Get Resistance Range\n");
+            NRF_LOG_INFO("Action: Get Resistance Range\n");
             sendResponseMessage(p_bike, BIKE_RESPONSE_RESISTANCERANGE);
             break;
         case BIKE_ACTION_GETCONTROLSTATE:
-            printf("Action: Get Workout Control State\n");
+            NRF_LOG_INFO("Action: Get Workout Control State\n");
             sendResponseMessage(p_bike, BIKE_RESPONSE_CONTROLSTATE);
             break;
         case BIKE_ACTION_GETRESISTANCELEVEL:
-            printf("Action: Get Resistance Level\n");
+            NRF_LOG_INFO("Action: Get Resistance Level\n");
             sendResponseMessage(p_bike, BIKE_RESPONSE_RESISTANCELEVEL);
             break;
         case BIKE_ACTION_SETCONTROLSTATE:
-            printf("Action: Set Workout Control State\n");
+            NRF_LOG_INFO("Action: Set Workout Control State\n");
             p_bike->bike_state.workout_control = p_evt_write->data[BIKE_INDEX_CONTROLSTATE];
             sendNotificationMessage(p_bike, BIKE_NOTIFY_CONTROLSTATE);
             break;
         case BIKE_ACTION_SETRESISTANCELEVEL:
-            printf("Action: Set Resistance Level\n");
+            NRF_LOG_INFO("Action: Set Resistance Level\n");
             p_bike->bike_state.resistance_level = p_evt_write->data[BIKE_INDEX_RESISTANCELEVEL];
             sendNotificationMessage(p_bike, BIKE_NOTIFY_RESISTANCELEVEL);
             break;
@@ -611,7 +611,7 @@ void receiveWriteMessage(ble_bike_t * p_bike, const ble_gatts_evt_write_t * p_ev
  */
 static void on_write(ble_bike_t * p_bike, ble_evt_t const * p_ble_evt)
 {
-    printf("Write Event Received");
+    NRF_LOG_INFO("Write Event Received");
     //Get Write Event Parameters
     const ble_gatts_evt_write_t * p_evt_write = &p_ble_evt->evt.gatts_evt.params.write;
     // Toggle LED 2 on any write
@@ -622,9 +622,9 @@ static void on_write(ble_bike_t * p_bike, ble_evt_t const * p_ble_evt)
     {
         // Debug: Print Bytes
         for (int i=0; i<p_evt_write->len; ++i) {
-            printf("Byte #%d: %d ", i,p_evt_write->data[i]);
+            NRF_LOG_DEBUG("Byte #%d: %d ", i,p_evt_write->data[i]);
         }
-        printf("\n");
+        NRF_LOG_DEBUG("\n");
         // Toggle LED 4 only on write for write characteristic
         nrf_gpio_pin_toggle(LED_4);
         // Process the data received
@@ -706,7 +706,7 @@ uint32_t ble_bike_notification_timeout_handler(void * p_context) {
 
 void ble_bike_on_ble_evt( ble_evt_t const * p_ble_evt, void * p_context)
 {
-    printf("Bike Event Received");
+    NRF_LOG_INFO("Bike Event Received");
     //Typecast context pointer so we can use it
     ble_bike_t * p_bike = (ble_bike_t *) p_context;
     
@@ -731,7 +731,7 @@ void ble_bike_on_ble_evt( ble_evt_t const * p_ble_evt, void * p_context)
             on_write(p_bike, p_ble_evt);
         default:
             // Events we don't care about now but might in the future
-            printf("Unknown Bike Event ID Received: %d\n", p_ble_evt->header.evt_id);
+            NRF_LOG_WARNING("Unknown Bike Event ID Received: %d\n", p_ble_evt->header.evt_id);
             break;
     }
 }

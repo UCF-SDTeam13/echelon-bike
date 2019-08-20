@@ -265,7 +265,7 @@ static void on_bike_evt(ble_bike_t *p_bike,
 
 	default:
 		// This "should" never happen since it is a custom event type
-		printf("Unknown BLE_BIKE_EVT type\n");
+		NRF_LOG_ERROR("Error: Unknown BLE_BIKE_EVT type\n");
 		break;
 	}
 }
